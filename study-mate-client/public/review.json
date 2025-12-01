@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Jane Doe",
+    "image": "https://randomuser.me/api/portraits/women/44.jpg",
+    "review": "This platform helped me find the perfect study partner! Highly recommended for any student.",
+    "rating": 5
+  },
+  {
+    "id": 2,
+    "name": "John Smith",
+    "image": "https://randomuser.me/api/portraits/men/32.jpg",
+    "review": "Great experience with StudyMate. Connected with talented peers easily and improved my learning.",
+    "rating": 4
+  },
+  {
+    "id": 3,
+    "name": "Sara Lee",
+    "image": "https://randomuser.me/api/portraits/women/68.jpg",
+    "review": "A very user-friendly platform with excellent matching features.",
+    "rating": 5
+  }
+]

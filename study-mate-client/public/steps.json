@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Create Profile",
+    "description": "Login and create your study partner profile including subject, experience, and study mode.",
+    "iconUrl": "https://cdn-icons-png.flaticon.com/512/190/190411.png",
+    "iconColor": "white"
+  },
+  {
+    "id": 2,
+    "title": "Find Partners",
+    "description": "Search and filter study partners based on your preferences such as subject or location.",
+    "iconUrl": "https://cdn-icons-png.flaticon.com/512/482/482631.png",
+    "iconColor": "white"
+  },
+  {
+    "id": 3,
+    "title": "Connect & Collaborate",
+    "description": "Connect with partners, send messages or requests, and collaborate for better learning.",
+    "iconUrl": "https://cdn-icons-png.flaticon.com/512/2462/2462719.png",
+    "iconColor": "whiter"
+  }
+]
