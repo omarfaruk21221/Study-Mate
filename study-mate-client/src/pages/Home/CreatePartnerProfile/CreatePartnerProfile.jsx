@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext/AuthContext";
+import { AuthContext } from "../../../context/AuthContext/AuthContext";
 import { toast } from "react-toastify";
 
 const CreatePartnerProfile = () => {

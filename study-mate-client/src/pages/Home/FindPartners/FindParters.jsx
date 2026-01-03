@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FindPartnerCard from "./FindPartnerCard";
 import { toast } from "react-toastify";
-import NotFound from "../ErrorPages/NotFound";
+import NotFound from "../../../components/Share/ErrorPages/NotFound";
 import axios from "axios"; // ✅ axios import করা হয়েছে
 
 const FindParters = () => {

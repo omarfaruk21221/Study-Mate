@@ -1,17 +1,17 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../Layouts/RootLayout";
 import Home from "../pages/Home/Home";
-import FindParters from "../pages/FindPartners/FindParters";
+import FindParters from "../pages/Home/FindPartners/FindParters";
 import AuthLayout from "../Layouts/AuthLayout";
-import Login from "../pages/Login/Login";
-import Register from "../pages/Register/Register";
+import Login from "../pages/AuthPages/Login/Login";
+import Register from "../pages/AuthPages/Register/Register";
 import PrivetRoutes from "./PrivetRoutes";
-import CreateProfile from "../pages/CreatePartnerProfile/CreatePartnerProfile";
+// import CreateProfile from "../pages/CreatePartnerProfile/CreatePartnerProfile";
 import Profile from "../pages/Home/Profile";
 import PartnerDetails from "../pages/PartnerDetails/PartnerDetails";
-import CreatePartnerProfile from "../pages/CreatePartnerProfile/CreatePartnerProfile";
-import MyConnection from "../pages/MyConnections/MyConnection";
-import Error404 from "../pages/ErrorPages/error404";
+import CreatePartnerProfile from "../pages/Home/CreatePartnerProfile/CreatePartnerProfile";
+import MyConnection from "../pages/Home/MyConnections/MyConnection";
+import Error404 from "../components/Share/ErrorPages/Error404";
 
 const router = createBrowserRouter([
   {
@@ -73,8 +73,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path:'/*',
-    element:<Error404/>
-  }
+    path: "/*",
+    element: <Error404 />,
+  },
 ]);
 export default router;

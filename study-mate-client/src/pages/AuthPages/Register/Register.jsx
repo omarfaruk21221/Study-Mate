@@ -1,6 +1,6 @@
 import { use } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { AuthContext } from "../../context/AuthContext/AuthContext";
+import { AuthContext } from "../../../context/AuthContext/AuthContext";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 
@@ -45,7 +45,7 @@ const Register = () => {
         })
           .then(() => {
             setUser({ ...user, displayName: name, photoURL: photo });
-           navigate("/auth-layout");
+            navigate("/auth-layout");
           })
           .catch((error) => {
             toast(error.message);

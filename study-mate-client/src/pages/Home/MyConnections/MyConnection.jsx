@@ -1,5 +1,5 @@
 import React, { use, useEffect, useState } from "react";
-import { AuthContext } from "../../context/AuthContext/AuthContext";
+import { AuthContext } from "../../../context/AuthContext/AuthContext";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import ConnUpdateModal from "./ConnUpdateModal";
