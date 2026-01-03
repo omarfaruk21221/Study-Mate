@@ -21,7 +21,7 @@ const HeroBanner = () => {
         navigation={true}
         pagination={{ clickable: true }}
         loop={true}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
         className="heroSwiper"
       >
         <SwiperSlide>

@@ -23,7 +23,7 @@ const FindParters = () => {
       });
   }, []);
 
-  // ===handleSearch===
+  // === handleSearch ===
   const handleSearch = () => {
     if (!searchValue.trim()) {
       toast.info("Please enter a name to search");

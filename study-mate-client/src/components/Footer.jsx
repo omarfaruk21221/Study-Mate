@@ -1,7 +1,12 @@
 import React from "react";
 import footerLogo from "../assets/logo.png";
 import { Link, NavLink } from "react-router";
-import { FaFacebook, FaGithub, FaInstagramSquare, FaLinkedin } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaGithub,
+  FaInstagramSquare,
+  FaLinkedin,
+} from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
@@ -60,7 +65,7 @@ const Footer = () => {
     </>
   );
   return (
-    <footer className="footer sm:footer-horizontal bg-secondary  py-10 px-20">
+    <footer className="footer sm:footer-horizontal bg-base-300  py-10 px-20">
       {/* === title === */}
       <aside className=" gap-10 flex-col md:flex items-center justify-between">
         <figure className="w-40 h-28 rounded-4xl bg-base-200">
