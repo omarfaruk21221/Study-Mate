@@ -7,6 +7,8 @@ import { Link } from "react-router";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import Statistics from "./Statistics/Statistics";
 import CardAnimations from "../../components/Animations/CardAnimations";
+import FAQSection from "./FAQSection";
+import Brands from "./Brands";
 
 const Home = () => {
   const [topPartners, setTopPartners] = useState([]);
@@ -53,6 +55,16 @@ const Home = () => {
         <section className="my-15">
           <Statistics />
         </section>
+        {/* === Brands === */}
+        <section className="my-15">
+          <h1 className="text-3xl text-primary font-bold my-10">
+            {" "}
+            Our Sponsor Brands
+          </h1>
+          <div className="mx-auto mb-10  px-4 my-6">
+            <Brands />
+          </div>
+        </section>
         {/* === How it works === */}
         <section className="my-15">
           <h1 className="text-3xl text-primary p-2 font-bold my-6">
@@ -68,6 +80,10 @@ const Home = () => {
           <div className="mb-10 px-8 ">
             <Review />
           </div>
+        </section>
+        {/* =====FAQ==== */}
+        <section className="my-15">
+          <FAQSection />
         </section>
       </main>
     </div>
