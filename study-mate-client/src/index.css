@@ -33,6 +33,10 @@ body {
   --color-accent: #627382;
 }
 
+.active{
+  @apply text-primary bg-primary/30 font-semibold
+
+}
 /* Custom button override -- */
 .btn-primary {
   @apply bg-gradient-to-r from-[#632EE3] to-[#9f62f2] text-white

@@ -9,6 +9,7 @@ import Statistics from "./Statistics/Statistics";
 import CardAnimations from "../../components/Animations/CardAnimations";
 import FAQSection from "./FAQSection";
 import Brands from "./Brands";
+import Contact from "./Contact";
 
 const Home = () => {
   const [topPartners, setTopPartners] = useState([]);
@@ -84,6 +85,10 @@ const Home = () => {
         {/* =====FAQ==== */}
         <section className="my-15">
           <FAQSection />
+        </section>
+        {/* =====FAQ==== */}
+        <section className="my-15">
+          <Contact />
         </section>
       </main>
     </div>

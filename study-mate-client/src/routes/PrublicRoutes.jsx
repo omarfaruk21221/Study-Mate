@@ -12,6 +12,8 @@ import PartnerDetails from "../pages/PartnerDetails/PartnerDetails";
 import CreatePartnerProfile from "../pages/Home/CreatePartnerProfile/CreatePartnerProfile";
 import MyConnection from "../pages/Home/MyConnections/MyConnection";
 import Error404 from "../components/Share/ErrorPages/Error404";
+import Contact from "../pages/Home/Contact";
+import Blog from "../pages/Home/Blog";
 
 const router = createBrowserRouter([
   {
@@ -24,8 +26,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/find-partners",
-        element: <FindParters />,
+        path: "/blog",
+        element: <Blog />,
       },
       {
         path: "/my-connection",
@@ -50,6 +52,10 @@ const router = createBrowserRouter([
             <CreatePartnerProfile />
           </PrivetRoutes>
         ),
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
       {
         path: "/profile",

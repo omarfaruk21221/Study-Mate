@@ -1,9 +1,9 @@
 import React, { use } from "react";
-import Logo from "../assets/justlogo.png";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthContext/AuthContext";
 import User from "./User";
 import ThemeToggle from "./ThemeToggle";
+import Logo from "./Share/Logo";
 
 const Navbar = () => {
   const { user } = use(AuthContext);
@@ -11,24 +11,13 @@ const Navbar = () => {
   const Links = (
     <>
       <li>
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive ? "text-blue-600 font-semibold" : "hover:text-blue-500"
-          }
-        >
-          Home
-        </NavLink>
+        <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink
-          to="/find-partners"
-          className={({ isActive }) =>
-            isActive ? "text-blue-600 font-semibold" : "hover:text-blue-500"
-          }
-        >
-          Find Partners
-        </NavLink>
+        <NavLink to="/blog">Blog</NavLink>
+      </li>
+      <li>
+        <NavLink to="/find-partners">Find Partners</NavLink>
       </li>
 
       {user && (
@@ -37,7 +26,9 @@ const Navbar = () => {
             <NavLink
               to={"/Create-Partner-Profile"}
               className={({ isActive }) =>
-                isActive ? "text-blue-600 font-semibold" : "hover:text-blue-500"
+                isActive
+                  ? "text-primary bg-primary/30 font-semibold"
+                  : "hover:text-primary bg-primary/30"
               }
             >
               Create Partner Profile
@@ -47,7 +38,9 @@ const Navbar = () => {
             <NavLink
               to="/my-connection"
               className={({ isActive }) =>
-                isActive ? "text-blue-600 font-semibold" : "hover:text-blue-500"
+                isActive
+                  ? "text-primary bg-primary/30 font-semibold"
+                  : "hover:text-primary bg-primary/30"
               }
             >
               My Connections
@@ -55,6 +48,10 @@ const Navbar = () => {
           </li>
         </>
       )}
+
+      <li>
+        <NavLink to="/contact">Contact</NavLink>
+      </li>
     </>
   );
   return (
@@ -85,16 +82,11 @@ const Navbar = () => {
             {Links}
           </ul>
         </div>
-        <div className="btn btn-ghost text-xl">
-          <img className=" w-10 h-10" src={Logo} alt="" />
-          <h1 className=" text-primary hidden md:block">
-            <span className=" font-bold">Study </span>
-            <span className="font-semibold text-primary-content">Mate</span>
-          </h1>
-        </div>
+        {/* logo */}
+        <Logo />
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{Links}</ul>
+        <ul className="menu menu-horizontal px-4">{Links}</ul>
       </div>
       <div className="navbar-end flex items-center gap-6">
         <ThemeToggle />
