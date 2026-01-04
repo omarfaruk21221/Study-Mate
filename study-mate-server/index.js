@@ -1,205 +1,332 @@
-// src/pages/Blog.jsx
-import React, { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
-import { FaSearch, FaFilter, FaSpinner } from "react-icons/fa";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { toast } from "react-toastify";
-import BlogCard from "./BlogCard";
-import Pagination from "../../../components/Pagination";
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+const app = express();
+const port = process.env.PORT || 3000;
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
-const containerVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -24 },
-};
+// ======url =======
+// const uri = "mongodb+srv://<db_username>:<db_password>@cluster0.zfo7i3z.mongodb.net/?appName=Cluster0";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.zfo7i3z.mongodb.net/?appName=Cluster0`;
+console.log();
 
-const Blog = () => {
-  const axiosSecure = useAxiosSecure();
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
+// Middleware to parse JSON bodies
+app.use(cors());
+app.use(express.json());
 
-  /* ================= STATE ================= */
-  const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 
-  // pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+app.get("/", (req, res) => {
+  res.send("StudyMate Server is running");
+});
 
-  /* ================= FETCH ================= */
-  const {
-    data: blogs = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["blogs"],
-    queryFn: async () => {
-      const res = await axiosSecure.get("/blogs");
-      return res.data;
-    },
-    onError: (err) => {
-      toast.error(err?.response?.data?.message || "Failed to load blogs");
-    },
-  });
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    // await client.connect();
+    const StudyMateDB = client.db("Study_Mate");
+    const usersCollection = StudyMateDB.collection("users");
+    const partnerCollection = StudyMateDB.collection("partners");
+    const connectionsCollection = StudyMateDB.collection("connections");
+    const blogsCollection = StudyMateDB.collection("blogs");
 
-  /* ================= CATEGORIES ================= */
-  const categories = useMemo(
-    () => ["All", ...new Set(blogs.map((b) => b.category))],
-    [blogs]
-  );
+    // database related api here
 
-  /* ================= FILTER ================= */
-  const filteredBlogs = useMemo(() => {
-    const term = search.toLowerCase();
-
-    return blogs.filter((blog) => {
-      const byCategory =
-        selectedCategory === "All" || blog.category === selectedCategory;
-
-      const bySearch =
-        blog.title.toLowerCase().includes(term) ||
-        blog.excerpt.toLowerCase().includes(term) ||
-        blog.tags?.some((t) => t.toLowerCase().includes(term));
-
-      return byCategory && bySearch;
+    // ==========users apis =====
+    app.post("/users", async (req, res) => {
+      try {
+        const user = req.body;
+        user.role = "user";
+        user.createdAt = new Date();
+        const userEmail = user.email;
+        const userExist = await usersCollection.findOne({ email: userEmail });
+        if (userExist) {
+          return res.status(400).send({ message: "User already exists" });
+        }
+        const result = await usersCollection.insertOne(user);
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: "Failed to create user", error });
+      }
     });
-  }, [blogs, search, selectedCategory]);
+    app.get("/users", async (req, res) => {
+      try {
+        const user = await usersCollection.find().toArray();
+        res.send(user);
+      } catch (error) {
+        res.status(500).send({ message: "Failed to fetch user", error });
+      }
+    });
+    app.get("/users/:email", async (req, res) => {
+      try {
+        const email = req.params.email;
+        const user = await usersCollection.findOne({ email });
+        res.send(user);
+      } catch (error) {
+        res.status(500).send({ message: "Failed to fetch user role", error });
+      }
+    });
+    app.patch("/users/:id/role", async (req, res) => {
+      const { id } = req.params;
+      const { role } = req.body;
+      try {
+        const result = await usersCollection.updateOne(
+          { _id: new ObjectId(id) },
+          { $set: { role } }
+        );
+        if (result.modifiedCount === 0)
+          return res.status(404).json({ message: "User not found" });
 
-  /* ================= RESET PAGE ON FILTER ================= */
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search, selectedCategory]);
+        res.status(200).json({ message: `Role updated to ${role}` });
+      } catch (error) {
+        res.status(500).json({ message: "Failed to update role", error });
+      }
+    });
 
-  /* ================= PAGINATION ================= */
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedBlogs = filteredBlogs.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+    app.delete("/users/:id", async (req, res) => {
+      const { id } = req.params;
+      try {
+        const result = await usersCollection.deleteOne({
+          _id: new ObjectId(id),
+        });
+        if (result.deletedCount === 0)
+          return res.status(404).json({ message: "User not found" });
 
-  /* ================= SCROLL TOP ================= */
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [currentPage]);
+        res
+          .status(200)
+          .json({ message: "User deleted successfully", deletedCount: 1 });
+      } catch (error) {
+        res.status(500).json({ message: "Failed to delete user", error });
+      }
+    });
 
-  /* ================= LOADING ================= */
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-base-100">
-        <FaSpinner className="text-4xl text-primary animate-spin" />
-      </div>
+    // ---parteners api---
+    app.post("/partners", async (req, res) => {
+      const newPartner = req.body;
+      // console.log("partener info", newPartner);
+      const result = await partnerCollection.insertOne(newPartner);
+      res.send(result);
+    });
+
+    // === post data  in email ====
+    app.get("/partners", async (req, res) => {
+      console.log(req.query);
+      const email = req.query.email;
+      const limit = parseInt(req.query.limit);
+      // const sort = parseInt(req.query.sort) || -1;
+      const query = {};
+      if (email) {
+        query.email = email;
+      }
+      const cursor = partnerCollection
+        .find(query)
+        .sort({ rating: -1 })
+        .limit(limit);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    /// update partnerCount with Patch
+    app.patch("/partners/:id", async (req, res) => {
+      const id = req.params.id;
+      const { patnerCount } = req.body;
+      const query = { _id: new ObjectId(id) };
+      const update = { $set: { patnerCount } };
+      const result = await partnerCollection.updateOne(query, update);
+      res.send(result);
+    });
+    ////==== find one /search/ partner ====
+    app.get("/partner/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await partnerCollection.findOne(query);
+      res.send(result);
+    });
+    //==== connections batabase ===
+    // get connection
+    app.get("/my-connections", async (req, res) => {
+      const email = req.query.email;
+      if (!email) {
+        return res
+          .status(400)
+          .send({ success: false, message: "Email is required" });
+      }
+      const query = { userEmail: email };
+      const result = await connectionsCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    // check if user already sent request to a partner
+    app.get("/connections/check-request", async (req, res) => {
+      const { userEmail, partnerId } = req.query;
+      if (!userEmail || !partnerId) {
+        return res.status(400).send({
+          success: false,
+          message: "userEmail and partnerId are required",
+        });
+      }
+
+      try {
+        const query = { userEmail, partnerId };
+        const existingRequest = await connectionsCollection.findOne(query);
+        if (existingRequest) {
+          return res.send({ exists: true });
+        } else {
+          return res.send({ exists: false });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, message: "Server error" });
+      }
+    });
+    //// find product bids
+    app.get("/connections/:partnerId", async (req, res) => {
+      const partnerId = req.params.partnerId;
+      console.log(partnerId);
+      const query = {
+        partner: partnerId,
+      };
+      const cursor = connectionsCollection.find(query).sort({ bid_price: -1 });
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    // =====  Check partner if user already sent request =====
+    app.get("/connections/sent-request", async (req, res) => {
+      const { userEmail, partnerId } = req.query;
+
+      if (!userEmail || !partnerId) {
+        return res.status(400).send({
+          success: false,
+          message: "userEmail and partnerId are required",
+        });
+      }
+
+      try {
+        const query = { userEmail, partnerId };
+        const existingRequest = await connectionsCollection.findOne(query);
+
+        if (existingRequest) {
+          return res.send({ exists: true });
+        } else {
+          return res.send({ exists: false });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, message: "Server error" });
+      }
+    });
+
+    // ===== connection data post ===
+    app.post("/connections/sent-request", async (req, res) => {
+      const requestData = req.body;
+      const result = await connectionsCollection.insertOne(requestData);
+      res.send(result);
+    });
+
+    /// delete Partner
+    app.delete("/connections/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await connectionsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // ====== edit /update connection ===
+    app.patch("/connections/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatePartner = req.body;
+      const query = { _id: new ObjectId(id) };
+      const update = { $set: updatePartner };
+      const result = await connectionsCollection.updateOne(query, update);
+      res.send(result);
+    });
+
+    // Get all blogs
+    app.get("/blogs", async (req, res) => {
+      try {
+        const limit = parseInt(req.query.limit);
+        const result = await blogsCollection
+          .find()
+          .sort({ date: -1 })
+          .limit(limit)
+          .toArray();
+        res.send(result); // returns array of blogs
+      } catch (err) {
+        res.status(500).json({ message: "Failed to fetch blogs" });
+      }
+    });
+
+    // Get single blog by id
+    app.get("/blogs/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+        const ObjectId = require("mongodb").ObjectId; // MongoDB ObjectId
+
+        const blog = await blogsCollection.findOne({ _id: new ObjectId(id) });
+
+        if (!blog) {
+          return res.status(404).json({ message: "Blog not found" });
+        }
+
+        res.send(blog); // returns single blog object
+      } catch (err) {
+        res.status(500).json({ message: "Failed to fetch blog" });
+      }
+    });
+
+    app.patch("/blogs/:id/approve", async (req, res) => {
+      const { id } = req.params;
+      try {
+        const result = await blogsCollection.updateOne(
+          { _id: new ObjectId(id) },
+          { $set: { status: "publish" } }
+        );
+        if (result.modifiedCount > 0) {
+          res.send({ success: true, message: "Blog approved!" });
+        } else {
+          res.status(404).send({ message: "Blog not found" });
+        }
+      } catch (error) {
+        res.status(500).send({ message: "Failed to approve blog", error });
+      }
+    });
+
+    // DELETE a blog
+    app.delete("/blogs/:id", async (req, res) => {
+      const { id } = req.params;
+      try {
+        const result = await blogsCollection.deleteOne({
+          _id: new ObjectId(id),
+        });
+        if (result.deletedCount > 0) {
+          res.send({ success: true, message: "Blog deleted!" });
+        } else {
+          res.status(404).send({ message: "Blog not found" });
+        }
+      } catch (error) {
+        res.status(500).send({ message: "Failed to delete blog", error });
+      }
+    });
+
+    // Send a ping to confirm a successful connection
+    // await client.db("admin").command({ ping: 1 });
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
     );
+  } finally {
+    // Ensures that the client will close when you finish/error
+    // await client.close();
   }
+}
+run().catch(console.dir);
+// Home route
 
-  /* ================= ERROR ================= */
-  if (isError) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-error">
-        Failed to load blogs
-      </div>
-    );
-  }
-
-  return (
-    <section className="min-h-screen bg-linear-to-b from-base-100 to-base-200 pt-24 pb-16">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        {/* ================= HEADER ================= */}
-        <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-          <div>
-            <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[11px] font-semibold uppercase tracking-widest text-primary mb-3">
-              Blog
-            </p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-base-content mb-3">
-              Latest Articles
-            </h1>
-            <p className="text-sm text-base-content/70 max-w-xl">
-              Articles on React, Node, MongoDB & modern web development.
-            </p>
-          </div>
-
-          {/* Search */}
-          <div className="w-full md:max-w-sm">
-            <label className="text-xs font-semibold text-base-content/60 mb-1 block">
-              Search blogs
-            </label>
-            <div className="relative">
-              <FaSearch className="absolute left-3 top-3.5 text-base-content/50 text-sm" />
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by title, tag or keyword"
-                className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-base-300 bg-base-100 text-sm outline-none focus:ring-2 focus:ring-primary/30"
-              />
-            </div>
-          </div>
-        </header>
-
-        {/* ================= FILTER ================= */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase text-base-content/50">
-              <FaFilter />
-              Category
-            </span>
-
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
-                  selectedCategory === cat
-                    ? "bg-base-content text-base-100 border-base-content"
-                    : "bg-base-100 text-base-content/70 border-base-300 hover:bg-base-200"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          <p className="text-xs text-base-content/60">
-            Showing{" "}
-            <span className="font-semibold text-base-content">
-              {filteredBlogs.length}
-            </span>{" "}
-            blogs
-          </p>
-        </div>
-
-        {/* ================= BLOG GRID ================= */}
-        {paginatedBlogs.length === 0 ? (
-          <div className="pt-16 text-center text-base-content/60 text-sm">
-            No blogs found. Try different search or category.
-          </div>
-        ) : (
-          <>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentPage} // 🔥 animation trigger
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-              >
-                {paginatedBlogs.map((blog) => (
-                  <BlogCard key={blog._id} blog={blog} />
-                ))}
-              </motion.div>
-            </AnimatePresence>
-
-            {/* ================= PAGINATION ================= */}
-            <Pagination
-              totalItems={filteredBlogs.length}
-              itemsPerPage={itemsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </>
-        )}
-      </div>
-    </section>
-  );
-};
-
-export default Blog;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

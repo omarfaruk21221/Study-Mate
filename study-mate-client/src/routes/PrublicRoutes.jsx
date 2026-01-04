@@ -19,6 +19,9 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import DashBoard from "../pages/DashboardPages/DashBoard";
 import ProfilePage from "../pages/DashboardPages/ProfilePage";
 import UserRoutes from "./UserRoutes";
+import ManageUsers from "../pages/DashboardPages/ManageUsers";
+import AdminRoutes from "./AdminRoutes";
+import ManageBlogs from "../pages/DashboardPages/ManageBlogs";
 // import Profile from "../pages/DashboardPages/Profile ";
 
 const router = createBrowserRouter([
@@ -116,6 +119,22 @@ const router = createBrowserRouter([
           <UserRoutes>
             <MyConnection />
           </UserRoutes>
+        ),
+      },
+      {
+        path: "manage-users",
+        element: (
+          <AdminRoutes>
+            <ManageUsers />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "manage-blogs",
+        element: (
+          <AdminRoutes>
+            <ManageBlogs />
+          </AdminRoutes>
         ),
       },
     ],
