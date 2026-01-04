@@ -68,16 +68,16 @@ const UserMenu = () => {
       >
         <div className="bg-base-100 rounded-xl shadow-lg border border-base-300 overflow-hidden w-64">
           {/* User Info Header */}
-          <div className="bg-gradient-to-r from-primary to-secondary p-4 text-white">
+          <div className="bg-linear-to-r from-primary to-secondary p-4 text-white">
             <div className="flex items-center gap-3">
               <img
-                src={user.photoURL || avatarPlaceholder}
+                src={user?.photoURL || avatarPlaceholder}
                 alt="User"
                 className="w-10 h-10 rounded-full border-2 border-white"
               />
               <div>
-                <p className="font-bold text-sm">{user.displayName}</p>
-                <p className="text-xs opacity-90">{user.email}</p>
+                <p className="font-bold text-sm">{user?.displayName}</p>
+                <p className="text-xs opacity-90">{user?.email}</p>
               </div>
             </div>
           </div>

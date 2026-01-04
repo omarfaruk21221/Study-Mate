@@ -1,13 +1,15 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthContext/AuthContext";
 import User from "./User";
 import ThemeToggle from "./ThemeToggle";
 import Logo from "./Share/Logo";
 import UserMenu from "./UserMenu";
+import { FaCog, FaHeart, FaUser } from "react-icons/fa";
 
 const Navbar = () => {
   const { user } = use(AuthContext);
+
   // ===my Navlinks ===
   const Links = (
     <>
@@ -24,12 +26,7 @@ const Navbar = () => {
       {user && (
         <>
           <li>
-            <NavLink to={"/Create-Partner-Profile"}>
-              Create Partner Profile
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/my-connection">My Connections</NavLink>
+            <NavLink to={"/Create-Profile"}>Create Profile</NavLink>
           </li>
         </>
       )}
@@ -37,8 +34,12 @@ const Navbar = () => {
       <li>
         <NavLink to="/contact">Contact</NavLink>
       </li>
+      <li>
+        <NavLink to="/dashboard">Dashboard</NavLink>
+      </li>
     </>
   );
+
   return (
     <div className="navbar bg-base-100 shadow-sm px-10 sticky top-0 z-50">
       <div className="navbar-start">

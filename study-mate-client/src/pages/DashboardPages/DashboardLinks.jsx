@@ -1,10 +1,17 @@
 import React from "react";
-import { FaHome, FaPlus } from "react-icons/fa";
+import { FaBackspace, FaHome, FaPlus } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { Link, NavLink } from "react-router";
+import { TbCloudDataConnection } from "react-icons/tb";
+import { RiUserAddLine } from "react-icons/ri";
 
 export default function DashboardLinks() {
   const links = [
+    {
+      icon: <FaBackspace />,
+      title: "Back",
+      link: "/",
+    },
     {
       icon: <FaHome />,
       title: "Home",
@@ -14,6 +21,16 @@ export default function DashboardLinks() {
       icon: <FaRegCircleUser />,
       title: "Profile",
       link: "/dashboard/my-profile",
+    },
+    {
+      icon: <RiUserAddLine />,
+      title: "Create-Profile",
+      link: "/dashboard/Create-Profile",
+    },
+    {
+      icon: <TbCloudDataConnection />,
+      title: "My Connections",
+      link: "/dashboard/my-connection",
     },
     {
       icon: <FaPlus />,

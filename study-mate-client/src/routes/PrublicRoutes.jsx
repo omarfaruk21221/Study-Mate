@@ -18,6 +18,7 @@ import BlogDetail from "../pages/Home/Blog/BlogDetail";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import DashBoard from "../pages/DashboardPages/DashBoard";
 import ProfilePage from "../pages/DashboardPages/ProfilePage";
+import UserRoutes from "./UserRoutes";
 // import Profile from "../pages/DashboardPages/Profile ";
 
 const router = createBrowserRouter([
@@ -43,13 +44,14 @@ const router = createBrowserRouter([
         element: <FindParters />,
       },
       {
-        path: "/my-connection",
+        path: "/Create-Profile",
         element: (
-          <PrivetRoutes>
-            <MyConnection />
-          </PrivetRoutes>
+          <UserRoutes>
+            <CreatePartnerProfile />
+          </UserRoutes>
         ),
       },
+
       {
         path: "/partner-details/:id",
         element: (
@@ -58,21 +60,18 @@ const router = createBrowserRouter([
           </PrivetRoutes>
         ),
       },
-      {
-        path: "/Create-Partner-Profile",
-        element: (
-          <PrivetRoutes>
-            <CreatePartnerProfile />
-          </PrivetRoutes>
-        ),
-      },
+
       {
         path: "/contact",
         element: <Contact />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
+        path: "/dashboard",
+        element: (
+          <PrivetRoutes>
+            <DashboardLayout />
+          </PrivetRoutes>
+        ),
       },
     ],
   },
@@ -102,6 +101,22 @@ const router = createBrowserRouter([
       {
         path: "my-profile",
         element: <ProfilePage />,
+      },
+      {
+        path: "Create-Profile",
+        element: (
+          <UserRoutes>
+            <CreatePartnerProfile />
+          </UserRoutes>
+        ),
+      },
+      {
+        path: "my-connection",
+        element: (
+          <UserRoutes>
+            <MyConnection />
+          </UserRoutes>
+        ),
       },
     ],
   },

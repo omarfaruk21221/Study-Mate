@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router";
 import Logo from "../components/Share/Logo";
 import DashboardLinks from "../pages/DashboardPages/DashboardLinks";
+import UserMenu from "../components/UserMenu";
 
 const DashboardLayout = () => {
   return (
@@ -31,8 +32,9 @@ const DashboardLayout = () => {
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
           </label>
-          <div className="px-4">
+          <div className="px-4 flex justify-between w-full items-center">
             <Logo />
+            <UserMenu />
           </div>
         </nav>
         {/* Page content here */}

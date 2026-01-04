@@ -43,7 +43,7 @@ const CreatePartnerProfile = () => {
     <div className="min-h-screen flex items-center justify-center py-10 px-4">
       <div className="bg-base-100  w-full max-w-9/12  rounded-2xl shadow-lg border-2 border-primary">
         <h1 className="text-3xl text-base-200 bg-primary w-fit mx-auto p-4  font-bold text-center rounded-b-2xl shadow-xl">
-          Create Partner Profile
+          Create Profile
         </h1>
         <span className="divider"></span>
         <form
@@ -59,7 +59,7 @@ const CreatePartnerProfile = () => {
               type="text"
               name="name"
               required
-              placeholder="e.g. Shamima Islam"
+              value={user?.displayName}
               className="w-full border border-accent rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-400 outline-none"
             />
           </div>
