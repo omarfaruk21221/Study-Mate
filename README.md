@@ -1,66 +1,112 @@
-#  StudyMate — Find Your Perfect Study Partner
----
+# Study Mate – Find Your Perfect Study Partner
 
-##  About the Project
-**StudyMate** is a full-stack MERN web platform designed to help students find their ideal study partners.
-The system connects learners based on subjects, study preferences, and experience levels,
-creating an interactive and goal-driven study environment.
+Study Mate is a modern web application that helps students find the **right** study partners based on subject, expertise, and study preferences. It focuses on creating meaningful learning connections through a clean, responsive UI and structured partner profiles. [page:1]
 
-## Key Features
+![Study Mate Preview](https://drive.google.com/file/d/1gEaE2___kGK6eaP5AdNaE3zwSfex7IlI/view?usp=sharing)
 
--  **User Authentication System**
-  - Firebase authentication (Email/Password + Google Sign-in)
-  - Dynamic Navbar: different views for logged-in and logged-out users
-
--  **Full CRUD Functionality**
-  - Create, Read, Update, and Delete study partner profiles
-  - Partner data stored securely in MongoDB via Express API
-
--  **Find Partner with Search and Sort**
-  - Search by subject or location using MongoDB `$regex`
-  - Sort by experience level (Beginner → Expert)
-
-- **Send Partner Request**
-  - Request to connect with other students
-  - Partner count updates automatically in MongoDB using `$inc`
-
--  **Modern UI + Light/Dark Theme**
-  - Built using React, Tailwind CSS, and DaisyUI
-  - Responsive layout across all screen sizes
-  - Includes theme toggle for user preference
+> Add a screenshot or simple UI mockup of your home page + Top Study Partners section and save as `./assets/study-mate-preview.png`. [page:1]
 
 ---
 
-##  Technologies Used
+## Live Demo & Credentials
 
-**Frontend:** React.js, Tailwind CSS, DaisyUI, React Router, Axios, React Toastify
-**Backend:** Node.js, Express.js, MongoDB, dotenv, CORS
-**Authentication:** Firebase Authentication
-**Hosting:** Netlify (Client), Vercel (Server)
+- Live Site: https://studymatea10.netlify.app [page:1]
 
-##  CRUD Operation Summary
-| Operation | Page | Description |
-|------------|------|-------------|
-| **Create** | Create Partner Profile | Logged-in users can add their profile |
-| **Read** | Find Partners | View all available study partners |
-| **Update** | My Connections | Edit or update previously sent partner requests |
-| **Delete** | My Connections | Delete unwanted partner requests |
+### 🔐 Demo Login Credentials
 
+**User Account**
 
-##  Additional Features
-- Custom loading spinner for smooth user experience
-- Protected routes using PrivateRoute component
-- Toast notifications for all user actions
-- Creative 404 Not Found page
-- Firebase domain whitelisted to prevent reload issues
+- Email: `user@gmail.com`
+- Password: `Aa1234`
 
+**Admin Account**
 
-##  Developer Info
+- Email: `admin@gmail.com`
+- Password: `Aa1234`
 
-**Developer:** Md. Omar Faruk
-**Live Site URL:** https://studymatea10.netlify.app/
-**Server Live URL:** https://study-mate-server-sigma.vercel.app/
-**GitHub (Client):** https://github.com/omarfarukcodes69/study-mate-client
-**GitHub (Server):** https://github.com/omarfarukcodes69/study-mate-server
+> Note: These credentials are for demo/testing only. Do not use them in production and always keep real credentials in environment variables.
 
-© 2025 StudyMate | Developed with  by Md. Omar Faruk
+---
+
+## Features
+
+- 🔍 **Find Study Partners**  
+  Browse and filter study partners by subject, experience, and study mode to quickly find someone who matches your learning goals. [page:1]
+
+- 👤 **Detailed Partner Profiles**  
+  Each partner card shows name, expertise (e.g., Physics, English Literature), mode (online/offline), experience level, and a link to full profile for better decision making. [page:1]
+
+- ⭐ **Top Study Partners Section**  
+  Highlighted list of featured or highly rated partners like Tariq Aziz, Jahid Hasan, Munir Hasan, and Nabila Akter, with subject, mode, and expertise labels. [page:1]
+
+- 📊 **Impact / Stats Section**  
+  Shows metrics such as 2,500+ active students, 150+ expert teachers, 500+ courses, and 4.9/5 average rating from 10,000+ reviews to build trust. [page:1]
+
+- 📰 **Recent Tech Blogs**  
+  Blog cards on topics like:
+
+  - Getting Started with React Hooks
+  - Advanced React Component Patterns
+  - Tailwind CSS for Rapid UI Development
+  - JavaScript ES6 Features You Must Know [page:1]
+
+- 🧭 **How It Works**  
+  Step-by-step flow: Create Profile, Find Partners, Connect & Collaborate with your ideal study partners. [page:1]
+
+- 💬 **Testimonials**  
+  Feedback from users like Jane Doe, John Smith, and Sara Lee describing their positive experience using the platform. [page:1]
+
+- ❓ **Frequently Asked Questions**  
+  FAQ section answering questions about certificates, refund policy, mobile learning, student interaction, instructor help, deadlines, and discounts or scholarships. [page:1]
+
+- 📞 **Contact & Social Links**  
+  Contact form plus links to GitHub, Facebook, LinkedIn, and WhatsApp so users can reach the creator easily. [page:1]
+
+- 📱 **Responsive Design**  
+  Fully responsive layout optimized for mobile, tablet, and desktop devices. [page:1]
+
+---
+
+## Tech Stack
+
+> Nicher gula generic; tumi project er sathe match kore update kore nibe.
+
+- **Frontend:** React / Next.js with modern component-based architecture. [page:1]
+- **Styling:** Tailwind CSS / DaisyUI / custom CSS for fast UI development. [page:1]
+- **Routing:** SPA or file-based routing for Home, Blog, Find Partners, Contact, Dashboard, etc. [page:1]
+- **State & Data:** React hooks for state management and data handling. [page:1]
+- **Backend / API:** (Update according to your setup – e.g., Node.js / Express / Firebase / Next API routes).
+- **Database:** (e.g., MongoDB / Firebase Firestore – update to real one).
+- **Deployment:** Netlify – deployed at `studymatea10.netlify.app`. [page:1]
+
+---
+
+## Getting Started
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/<your-username>/study-mate.git
+cd study-mate
+
+# 2. Install dependencies
+npm install
+# or
+yarn
+# or
+pnpm install
+
+# 3. Configure environment variables
+# create .env.local or .env file and add keys like:
+# VITE_API_URL=...
+# FIREBASE_API_KEY=...
+# MONGO_URI=...
+# (Update according to your real config)
+
+# 4. Run development server
+npm run dev
+# or
+yarn dev
+
+# 5. Open in browser
+http://localhost:5173   # or 3000 (update based on your setup)
+```
