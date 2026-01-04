@@ -53,11 +53,16 @@ async function run() {
     app.get("/partners", async (req, res) => {
       console.log(req.query);
       const email = req.query.email;
+      const limit = parseInt(req.query.limit) || 4;
+      // const sort = parseInt(req.query.sort) || -1;
       const query = {};
       if (email) {
         query.email = email;
       }
-      const cursor = partnerCollection.find(query);
+      const cursor = partnerCollection
+        .find(query)
+        .sort({ rating: -1 })
+        .limit(limit);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -176,10 +181,37 @@ async function run() {
       res.send(result);
     });
 
-    // ===========blogs =====================
+    // Get all blogs
     app.get("/blogs", async (req, res) => {
-      const result = await blogsCollection.find().toArray();
-      res.send(result);
+      try {
+        const limit = parseInt(req.query.limit);
+        const result = await blogsCollection
+          .find()
+          .sort({ date: -1 })
+          .limit(limit)
+          .toArray();
+        res.send(result); // returns array of blogs
+      } catch (err) {
+        res.status(500).json({ message: "Failed to fetch blogs" });
+      }
+    });
+
+    // Get single blog by id
+    app.get("/blogs/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+        const ObjectId = require("mongodb").ObjectId; // MongoDB ObjectId
+
+        const blog = await blogsCollection.findOne({ _id: new ObjectId(id) });
+
+        if (!blog) {
+          return res.status(404).json({ message: "Blog not found" });
+        }
+
+        res.send(blog); // returns single blog object
+      } catch (err) {
+        res.status(500).json({ message: "Failed to fetch blog" });
+      }
     });
 
     // Send a ping to confirm a successful connection

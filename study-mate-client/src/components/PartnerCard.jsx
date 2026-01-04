@@ -2,13 +2,20 @@
 import React from "react";
 import { FaStar, FaUser } from "react-icons/fa";
 import { Link } from "react-router";
+import { motion } from "framer-motion";
 
 const PartnerCard = ({ Partner }) => {
   // { name:'omar faruk', subject:'math', rating:'5', imgUrl:""}
   console.log(Partner);
   const { _id, name, profileimage, subject, rating } = Partner || {};
   return (
-    <div className="w-xs mb-10 bg-base-100 rounded-lg shadow-md p-6 flex flex-col items-center hover:scale-115 hover:bg-accent  transition-transform cursor-pointer">
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.08 }}
+      transition={{ duration: 0.5 }}
+      className="w-70 mb-10 bg-base-100 rounded-lg shadow-md p-6 flex flex-col items-center hover:bg-accent cursor-pointer"
+    >
       <figure>
         {profileimage ? (
           <img
@@ -45,7 +52,7 @@ const PartnerCard = ({ Partner }) => {
       >
         View Profile
       </Link>
-    </div>
+    </motion.div>
   );
 };
 

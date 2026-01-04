@@ -1,5 +1,5 @@
 // src/pages/BlogDetail.jsx
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -9,45 +9,52 @@ import {
   FaUser,
   FaSpinner,
 } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { toast } from "react-toastify";
 
 const BlogDetail = () => {
   const { id } = useParams();
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const ids = id;
+  const axiosSecure = useAxiosSecure();
+  console.log(ids);
+  // Fetch single blog by id
+  const {
+    data: blog,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["blog", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/blogs/${id}`);
+      return res.data; // API returns single blog object
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Failed to load blog");
+    },
+  });
 
-  // load all blogs once
-  useEffect(() => {
-    const getBlogs = async () => {
-      try {
-        const res = await fetch("/data/blogs.json");
-        const data = await res.json();
-        setBlogs(data.blogs || []);
-        window.scrollTo(0, 0);
-      } catch (err) {
-        console.error("Failed to load blogs:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getBlogs();
-  }, []);
-
-  const blog = useMemo(
-    () => blogs.find((b) => String(b.id) === String(id)),
-    [blogs, id]
-  );
+  // Related blogs (optional: fetch all blogs for related)
+  const { data: allBlogs = [] } = useQuery({
+    queryKey: ["blogs"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/blogs");
+      return res.data;
+    },
+    enabled: !!blog, // only fetch after single blog loaded
+  });
 
   const related = useMemo(
     () =>
-      blogs
+      allBlogs
         .filter(
-          (b) => b.category === blog?.category && String(b.id) !== String(id)
+          (b) => b.category === blog?.category && String(b._id) !== String(id)
         )
         .slice(0, 3),
-    [blogs, blog, id]
+    [allBlogs, blog, id]
   );
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-base-100">
         <FaSpinner className="text-4xl text-primary animate-spin" />
@@ -55,7 +62,7 @@ const BlogDetail = () => {
     );
   }
 
-  if (!blog) {
+  if (isError || !blog) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-base-100 to-base-200 px-4">
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-error/80 mb-2">
@@ -74,21 +81,20 @@ const BlogDetail = () => {
   return (
     <section className="min-h-screen bg-gradient-to-b from-base-100 to-base-200 pt-24 pb-16">
       <div className="max-w-4xl mx-auto px-4 md:px-6">
-        {/* Back */}
+        {/* Back & Category */}
         <div className="flex items-center justify-between gap-4 mb-6">
           <Link
             to="/blog"
             className="inline-flex items-center gap-2 text-xs font-semibold text-base-content/70 hover:text-primary transition-colors"
           >
-            <FaArrowLeft className="text-[11px]" />
-            Back to all articles
+            <FaArrowLeft className="text-[11px]" /> Back to all articles
           </Link>
           <span className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-base-content/50">
             {blog.category}
           </span>
         </div>
 
-        {/* Title + meta */}
+        {/* Title + Meta */}
         <motion.header
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -98,10 +104,9 @@ const BlogDetail = () => {
           <h1 className="text-3xl md:text-4xl font-black tracking-tight text-base-content mb-4">
             {blog.title}
           </h1>
-
           <div className="flex flex-wrap gap-4 text-xs text-base-content/70 border-y border-base-300 py-3">
             <span className="inline-flex items-center gap-2">
-              <FaUser className="text-primary text-sm" />
+              <FaUser className="text-primary text-sm" />{" "}
               <span className="font-medium">{blog.author}</span>
             </span>
             <span className="inline-flex items-center gap-2">
@@ -113,8 +118,7 @@ const BlogDetail = () => {
               })}
             </span>
             <span className="inline-flex items-center gap-2">
-              <FaClock className="text-accent text-sm" />
-              {blog.readTime}
+              <FaClock className="text-accent text-sm" /> {blog.readTime}
             </span>
           </div>
         </motion.header>
@@ -164,7 +168,7 @@ const BlogDetail = () => {
           </div>
         </div>
 
-        {/* Related */}
+        {/* Related Blogs */}
         {related.length > 0 && (
           <section className="border-t border-base-300 pt-6">
             <div className="flex items-center justify-between mb-4">
@@ -182,8 +186,8 @@ const BlogDetail = () => {
             <div className="grid md:grid-cols-3 gap-4">
               {related.map((item) => (
                 <Link
-                  key={item.id}
-                  to={`/blog/${item.id}`}
+                  key={item._id}
+                  to={`/blog/${item._id}`}
                   className="group rounded-xl border border-base-300 bg-base-100 hover:bg-base-50 hover:border-primary/40 transition-all shadow-sm hover:shadow-md overflow-hidden"
                 >
                   <div className="h-24 overflow-hidden bg-base-200">

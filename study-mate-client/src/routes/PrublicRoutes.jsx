@@ -14,6 +14,7 @@ import MyConnection from "../pages/Home/MyConnections/MyConnection";
 import Error404 from "../components/Share/ErrorPages/Error404";
 import Contact from "../pages/Home/Contact";
 import Blog from "../pages/Home/Blog/Blog";
+import BlogDetail from "../pages/Home/Blog/BlogDetail";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/blog",
         element: <Blog />,
+      },
+      {
+        path: "/blog/:id",
+        element: <BlogDetail />,
       },
       {
         path: "/find-partners",
