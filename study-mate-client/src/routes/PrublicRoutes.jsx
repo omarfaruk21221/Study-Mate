@@ -17,6 +17,7 @@ import Blog from "../pages/Home/Blog/Blog";
 import BlogDetail from "../pages/Home/Blog/BlogDetail";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import DashBoard from "../pages/DashboardPages/DashBoard";
+import ProfilePage from "../pages/DashboardPages/ProfilePage";
 // import Profile from "../pages/DashboardPages/Profile ";
 
 const router = createBrowserRouter([
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <DashBoard />,
+      },
+      {
+        path: "my-profile",
+        element: <ProfilePage />,
       },
     ],
   },

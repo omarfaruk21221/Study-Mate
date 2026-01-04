@@ -56,7 +56,15 @@ async function run() {
         res.status(500).send({ message: "Failed to create user", error });
       }
     });
-
+    app.get("/users/:email", async (req, res) => {
+      try {
+        const email = req.params.email;
+        const user = await usersCollection.findOne({ email });
+        res.send(user);
+      } catch (error) {
+        res.status(500).send({ message: "Failed to fetch user role", error });
+      }
+    });
     app.post("/partners", async (req, res) => {
       const newPartner = req.body;
       // console.log("partener info", newPartner);
