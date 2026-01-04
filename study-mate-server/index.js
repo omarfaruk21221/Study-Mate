@@ -32,28 +32,43 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     const StudyMateDB = client.db("Study_Mate");
+    const usersCollection = StudyMateDB.collection("users");
     const partnerCollection = StudyMateDB.collection("partners");
     const connectionsCollection = StudyMateDB.collection("connections");
     const blogsCollection = StudyMateDB.collection("blogs");
 
     // database related api here
+
+    // ==========users apis =====
+    app.post("/users", async (req, res) => {
+      try {
+        const user = req.body;
+        user.role = "user";
+        user.createdAt = new Date();
+        const userEmail = user.email;
+        const userExist = await usersCollection.findOne({ email: userEmail });
+        if (userExist) {
+          return res.status(400).send({ message: "User already exists" });
+        }
+        const result = await usersCollection.insertOne(user);
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ message: "Failed to create user", error });
+      }
+    });
+
     app.post("/partners", async (req, res) => {
       const newPartner = req.body;
-      console.log("partener info", newPartner);
+      // console.log("partener info", newPartner);
       const result = await partnerCollection.insertOne(newPartner);
       res.send(result);
     });
-    // top rated partener
-    app.get("/topPartners", async (req, res) => {
-      const cursor = partnerCollection.find().sort({ rating: -1 }).limit(4);
-      const result = await cursor.toArray();
-      res.send(result);
-    });
+
     // === post data  in email ====
     app.get("/partners", async (req, res) => {
       console.log(req.query);
       const email = req.query.email;
-      const limit = parseInt(req.query.limit) || 4;
+      const limit = parseInt(req.query.limit);
       // const sort = parseInt(req.query.sort) || -1;
       const query = {};
       if (email) {

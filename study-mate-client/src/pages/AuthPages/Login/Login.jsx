@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../../context/AuthContext/AuthContext";
 import { toast } from "react-toastify";
+import GoogleLogIn from "../GoogleLogIn";
 
 const Login = () => {
   const { setUser, logInUser, logInWithGoogle } = use(AuthContext);
@@ -82,14 +83,7 @@ const Login = () => {
               </span>
             </div>
             {/* ...google log In ... */}
-            <div className=" space-y-2">
-              <button
-                onClick={handleGoogleLogIn}
-                className="btn  btn-secondary w-full p-4"
-              >
-                <FcGoogle className="text-2xl" /> Log In With Google
-              </button>
-            </div>
+            <GoogleLogIn />
           </div>
         </div>
       </div>

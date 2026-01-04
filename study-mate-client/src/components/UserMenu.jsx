@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { FaUser, FaCog, FaSignOutAlt, FaHeart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Avator from "./Avator";
-import useAuth from "../Hooks/useAuth";
 import { toast } from "react-toastify";
 import avatarPlaceholder from "../assets/avatar_placeholder.png";
+import useAuth from "../Hooks/useAuth";
 
 const UserMenu = () => {
-  const { user, signOutUser } = useAuth();
+  const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const toggleDropdown = () => {
@@ -42,7 +42,7 @@ const UserMenu = () => {
   // =========== logout feature ===========
   const handleLogOut = () => {
     closeDropdown();
-    signOutUser();
+    logOut();
     navigate("/");
     toast.success("Logged out successfully!");
   };

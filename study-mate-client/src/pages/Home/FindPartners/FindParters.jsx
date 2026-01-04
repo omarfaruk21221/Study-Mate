@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import FindPartnerCard from "./FindPartnerCard";
 import { toast } from "react-toastify";
 import NotFound from "../../../components/Share/ErrorPages/NotFound";
-import axios from "axios"; // ✅ axios import করা হয়েছে
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const FindParters = () => {
   const [partners, setParners] = useState([]);
   const [allPartners, setAllPartners] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [sortBy, setSortBy] = useState("default");
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axios
-      .get("https://study-mate-server-sigma.vercel.app/partners") // ✅ fetch এর পরিবর্তে axios.get()
+    axiosSecure
+      .get("/partners") //
       .then((res) => {
         setParners(res.data);
         setAllPartners(res.data);
