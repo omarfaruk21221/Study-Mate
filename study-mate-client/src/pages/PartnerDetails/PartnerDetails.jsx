@@ -1,29 +1,112 @@
-// PartnerDetails.jsx
-import React, { use, useEffect, useState } from "react";
-import { FaRegStar, FaStar } from "react-icons/fa";
+import React, { useEffect, useState, useContext } from "react";
+import {
+  FaRegStar,
+  FaStar,
+  FaMapMarkerAlt,
+  FaClock,
+  FaUser,
+} from "react-icons/fa";
 import { useParams } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../context/AuthContext/AuthContext";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import Loader from "../../components/Spiners/Loader";
+import NotFound from "../../components/Share/ErrorPages/NotFound";
 
 const PartnerDetails = () => {
-  const { user } = use(AuthContext);
-  const [partnerInfo, setPartnerInfo] = useState([]);
-  const [partnersCount, setPartnersCount] = useState(0);
-  const [btnDisable, setBtnDisable] = useState(false);
+  const { user } = useContext(AuthContext);
   const params = useParams();
   const id = params.id;
+  const axiosSecure = useAxiosSecure();
+  const [btnDisable, setBtnDisable] = useState(false);
+  // Fetch partner data
+  const {
+    data: partner = {},
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["partner", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/partner/${id}`);
+      return res.data;
+    },
+    onError: (err) => {
+      toast.error(
+        err?.response?.data?.message || "Failed to load partner data"
+      );
+    },
+  });
+
+  const [partnersCount, setPartnersCount] = useState(partner.patnerCount || 0);
+
+  //  Check if request already sent (useAxiosSecure)
   useEffect(() => {
-    fetch(`https://study-mate-server-sigma.vercel.app/partner/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setPartnerInfo(data);
-        setPartnersCount(data.patnerCount || 0);
-        // console.log(data);
-      })
-      .catch((error) => toast.error(error));
-    // console.log(id);
-  }, [id]);
+    if (!user) return;
+
+    const checkRequest = async () => {
+      try {
+        const res = await axiosSecure.get(
+          `/connections/check-request?userEmail=${user.email}&partnerId=${id}`
+        );
+        if (res.data.exists) setBtnDisable(true);
+      } catch (error) {
+        toast.error("Failed to check request status", error);
+      }
+    };
+
+    checkRequest();
+  }, [user, id, axiosSecure]);
+
+  // Send partner request
+  const handleSendRequest = async () => {
+    if (!user) return toast.error("You must be logged in to send a request");
+    setBtnDisable(true);
+
+    const requestData = {
+      partnerId: partner._id,
+      partnerName: partner.name,
+      partnerImg: partner.profileimage,
+      partnerSubject: partner.subject,
+      partnerStudyMode: partner.studyMode,
+      partnerEmail: partner.email,
+      userName: user.displayName,
+      userEmail: user.email,
+      partnerRequest: "pending",
+      date: new Date().toISOString(),
+    };
+
+    const newCount = (partner.patnerCount || 0) + 1;
+    setPartnersCount(newCount);
+
+    try {
+      // Update partner count
+      await axiosSecure.patch(`/partners/${id}`, { patnerCount: newCount });
+
+      // Send partner request
+      await axiosSecure.post(`/connections/sent-request`, requestData);
+
+      toast.success("Partner request sent successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to send partner request");
+      setPartnersCount(partner.patnerCount || 0);
+      setBtnDisable(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <NotFound />;
+  }
 
   const {
     _id,
@@ -36,132 +119,91 @@ const PartnerDetails = () => {
     location,
     experienceLevel,
     profileimage,
-  } = partnerInfo;
-  // console.log(partnersCount);
-  // console.log({name,email,id,_id})
-  useEffect(() => {
-    if (!user) return;
-    fetch(
-      `https://study-mate-server-sigma.vercel.app/connections/check-request?userEmail=${user.email}&partnerId=${id}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.exists) setBtnDisable(true);
-      })
-      .catch(() => toast.error("Failed to load connections"));
-  }, [user, id]);
-
-  // ==== dend requested ===
-  const handleSendRequest = async () => {
-    if (!user) return toast.error("You must be logged in to send a request");
-    setBtnDisable(true);
-    // Increment partner count
-    const newCount = partnersCount + 1;
-    setPartnersCount(newCount);
-    // Simulate saving data to "requests" collection
-    const requestData = {
-      partnerId: _id,
-      partnerName: name,
-      partnerImg: profileimage,
-      partnerSubject: subject,
-      partnerStudyMode: studyMode,
-      partnerEmail: email,
-      userName: user.displayName,
-      userEmail: user.email,
-      date: new Date().toISOString(),
-    };
-    // const newProductCount= partnersCount
-    // === update partnerCount Added in backend ======
-    try {
-      // Update partner count
-      await fetch(`https://study-mate-server-sigma.vercel.app/partners/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ patnerCount: newCount }),
-      });
-
-      // Send partner request
-      await fetch(
-        "https://study-mate-server-sigma.vercel.app/connections/sent-request",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(requestData),
-        }
-      );
-
-      toast.success("Partner request sent successfully!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to send partner request");
-      setPartnersCount(partnersCount);
-      setBtnDisable(false);
-    }
-  };
+    description,
+  } = partner;
 
   return (
-    <div className=" mx-auto border-2 border-primary p-8 bg-base-100  rounded-lg shadow-lg my-12">
-      <div className=" md:flex  items-center gap-4 space-x-8">
-        <img
-          src={profileimage}
-          alt=""
-          className="w-52 h-52 rounded-full object-cover border-4 border-primary"
-        />
-        <div className="space-y-1">
-          <h1 className="text-3xl font-bold text-primary">{name}</h1>
-          <div className="flex items-center text-xl mt-5 space-x-1 text-yellow-500">
-            ☆
+    <div className="max-w-7xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 p-8 my-12 transition-all">
+      {/* ====?cover === */}
+
+      {/* Header */}
+      <div className="w-full md:flex items-center gap-6">
+        <div className="relative">
+          <img
+            src={profileimage || "/default-avatar.png"}
+            alt={name}
+            className="w-48 h-48 md:w-52 md:h-52 rounded-full object-cover border-4 border-primary shadow-lg"
+          />
+          <span className="absolute bottom-2 right-2 w-5 h-5 rounded-full bg-green-500 border-2 border-white dark:border-gray-900 animate-pulse"></span>
+        </div>
+        <div className="space-y-2 md:space-y-3">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-primary">
+            {name}
+          </h1>
+          <div className="flex items-center space-x-2 text-yellow-500">
             {Array.from({ length: 5 }).map((_, i) => (
-              <span className="text-xl font-bold" key={i}>
-                {i < rating ? <FaStar /> : <FaRegStar />}
-              </span>
+              <span key={i}>{i < rating ? <FaStar /> : <FaRegStar />}</span>
             ))}
-            <span className="text-accent ml-2">({rating} / 5)</span>
+            <span className="text-accent ml-2">({rating || 0} / 5)</span>
           </div>
+          <p className="text-gray-600 dark:text-gray-300 font-medium">
+            {subject}
+          </p>
         </div>
       </div>
-      <span className="divider"></span>
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center text-accent">
-        <aside>
-          <div>
-            <strong className="text-lg text-primary">Subject:</strong>{" "}
-            <span className="text-lg text-secondary"> {subject}</span>
-          </div>
-          <div>
-            <strong className="text-lg text-primary">Study Mode:</strong>{" "}
-            <span className="text-lg text-secondary">{studyMode}</span>
-          </div>
-          <div>
-            <strong className="text-lg text-primary">Availability:</strong>{" "}
-            <span className="text-lg text-secondary">{availability}</span>
-          </div>
-        </aside>
-        <aside>
-          <div>
-            <strong className="text-lg text-primary">Location:</strong>{" "}
-            <span className="text-lg text-secondary"> {location}</span>
-          </div>
-          <div>
-            <strong className="text-lg text-primary">Experience Level:</strong>{" "}
-            <span className="text-lg text-secondary">{experienceLevel}</span>
-          </div>
-          <div>
-            <strong className="text-lg text-primary">Partner Count:</strong>{" "}
-            <span className="text-lg text-secondary"> {partnersCount}</span>
-          </div>
-        </aside>
+
+      <span className="divider my-6"></span>
+
+      {/* Info Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700 dark:text-gray-200">
+        <div className="space-y-3 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-inner">
+          <p>
+            <FaUser className="inline mr-2 text-primary" />
+            <strong>Study Mode:</strong> {studyMode}
+          </p>
+          <p>
+            <FaClock className="inline mr-2 text-primary" />
+            <strong>Availability:</strong> {availability}
+          </p>
+          <p>
+            <FaStar className="inline mr-2 text-primary" />
+            <strong>Experience Level:</strong> {experienceLevel}
+          </p>
+        </div>
+        <div className="space-y-3 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-inner">
+          <p>
+            <FaMapMarkerAlt className="inline mr-2 text-primary" />
+            <strong>Location:</strong> {location}
+          </p>
+          <p>
+            <FaUser className="inline mr-2 text-primary" />
+            <strong>Partner Count:</strong> {partnersCount}
+          </p>
+          <p>
+            <strong>Email:</strong> {email}
+          </p>
+        </div>
       </div>
-      <span className="divider"></span>
-      <div className="flex justify-center">
+
+      <span className="divider my-6"></span>
+      <div className=" bg-base-100/70 dark:bg-gray-800 p-4 rounded-lg shadow-inner">
+        <h1 className="py-4">
+          {" "}
+          <strong>Description</strong>
+        </h1>
+        {description}
+      </div>
+
+      {/* Action Button */}
+      <div className="flex justify-center my-5">
         <button
           onClick={handleSendRequest}
           disabled={btnDisable}
-          className={`btn btn-primary hover:btn-primary ${
+          className={`btn btn-primary w-full md:w-64 transition-all ${
             btnDisable ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
           }`}
         >
-          Send Partner Request
+          {btnDisable ? "Request Sent" : "Send Partner Request"}
         </button>
       </div>
     </div>
