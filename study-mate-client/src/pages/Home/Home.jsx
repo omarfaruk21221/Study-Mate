@@ -10,7 +10,6 @@ import {
   FaSpinner,
 } from "react-icons/fa";
 import Statistics from "./Statistics/Statistics";
-import CardAnimations from "../../components/Animations/CardAnimations";
 import FAQSection from "./FAQSection";
 import Brands from "./Brands";
 import Contact from "./Contact";

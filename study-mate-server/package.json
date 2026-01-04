@@ -4,6 +4,7 @@
   "description": "",
   "license": "ISC",
   "author": "",
+  "start": "node index.js",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
