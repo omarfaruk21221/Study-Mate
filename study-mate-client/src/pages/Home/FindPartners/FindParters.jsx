@@ -63,7 +63,7 @@ const FindParters = () => {
       <div className="divider"></div>
 
       {/* ===== Header ===== */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-10">
+      <div className="flex max-w-7xl mx-auto flex-col md:flex-row justify-between items-center mb-10">
         <div className="w-full space-x-4 mb-3 md:mb-0">
           <label className="font-semibold text-accent">Sort by:</label>
           <select
@@ -93,9 +93,9 @@ const FindParters = () => {
         </div>
       </div>
 
-      <main>
+      <main className="max-w-7xl mx-auto">
         {partners.length > 0 ? (
-          <section className=" mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
+          <section className=" mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between gap-6 items-center">
             {partners.map((partner) => (
               <FindPartnerCard key={partner._id} Partner={partner} />
             ))}

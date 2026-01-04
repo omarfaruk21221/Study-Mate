@@ -13,7 +13,7 @@ import CreatePartnerProfile from "../pages/Home/CreatePartnerProfile/CreatePartn
 import MyConnection from "../pages/Home/MyConnections/MyConnection";
 import Error404 from "../components/Share/ErrorPages/Error404";
 import Contact from "../pages/Home/Contact";
-import Blog from "../pages/Home/Blog";
+import Blog from "../pages/Home/Blog/Blog";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/blog",
         element: <Blog />,
+      },
+      {
+        path: "/find-partners",
+        element: <FindParters />,
       },
       {
         path: "/my-connection",

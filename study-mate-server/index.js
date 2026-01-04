@@ -34,6 +34,7 @@ async function run() {
     const StudyMateDB = client.db("Study_Mate");
     const partnerCollection = StudyMateDB.collection("partners");
     const connectionsCollection = StudyMateDB.collection("connections");
+    const blogsCollection = StudyMateDB.collection("blogs");
 
     // database related api here
     app.post("/partners", async (req, res) => {
@@ -172,6 +173,12 @@ async function run() {
       const query = { _id: new ObjectId(id) };
       const update = { $set: updatePartner };
       const result = await connectionsCollection.updateOne(query, update);
+      res.send(result);
+    });
+
+    // ===========blogs =====================
+    app.get("/blogs", async (req, res) => {
+      const result = await blogsCollection.find().toArray();
       res.send(result);
     });
 

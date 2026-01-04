@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "title": "Getting Started with React Hooks",
+    "excerpt": "Learn the fundamentals of React Hooks and how to use them effectively in your projects.",
+    "category": "React",
+    "author": "Omar Faruk",
+    "date": "2024-01-15",
+    "readTime": "5 min read",
+    "image": "https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=600&h=400&fit=crop",
+    "content": "React Hooks have revolutionized the way we write React components. They allow you to use state and other React features without writing a class. In this article, we'll explore the most commonly used hooks like useState, useEffect, and useContext.",
+    "tags": ["React", "JavaScript", "Hooks"]
+  },
+  {
+    "id": 2,
+    "title": "Mastering Tailwind CSS",
+    "excerpt": "A comprehensive guide to building beautiful UIs with Tailwind CSS utility-first approach.",
+    "category": "CSS",
+    "author": "Omar Faruk",
+    "date": "2024-01-12",
+    "readTime": "8 min read",
+    "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop",
+    "content": "Tailwind CSS is a utility-first CSS framework that helps you build modern designs without leaving your HTML. Learn how to customize themes, create responsive designs, and optimize your CSS bundle size.",
+    "tags": ["Tailwind CSS", "Web Design", "Frontend"]
+  },
+  {
+    "id": 3,
+    "title": "Express.js Best Practices",
+    "excerpt": "Learn professional patterns and practices for building scalable Express.js applications.",
+    "category": "Backend",
+    "author": "Omar Faruk",
+    "date": "2024-01-10",
+    "readTime": "10 min read",
+    "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop",
+    "content": "Building production-ready Express applications requires following best practices. From middleware configuration to error handling, learn the patterns that professionals use.",
+    "tags": ["Express", "Node.js", "Backend"]
+  },
+  {
+    "id": 4,
+    "title": "MongoDB Data Modeling",
+    "excerpt": "Expert tips on designing efficient and scalable MongoDB schemas for your applications.",
+    "category": "Database",
+    "author": "Omar Faruk",
+    "date": "2024-01-08",
+    "readTime": "7 min read",
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+    "content": "MongoDB's flexible schema gives you freedom, but poor design can lead to performance issues. Learn how to model your data effectively for optimal performance.",
+    "tags": ["MongoDB", "Database", "Data Modeling"]
+  },
+  {
+    "id": 5,
+    "title": "Next.js Full Stack Development",
+    "excerpt": "Build complete applications with Next.js, from frontend to API routes.",
+    "category": "Next.js",
+    "author": "Omar Faruk",
+    "date": "2024-01-05",
+    "readTime": "12 min read",
+    "image": "https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=600&h=400&fit=crop",
+    "content": "Next.js has become the go-to framework for React applications. Learn how to leverage API routes, SSR, and static generation for full-stack development.",
+    "tags": ["Next.js", "React", "Full Stack"]
+  },
+  {
+    "id": 6,
+    "title": "Authentication with JWT",
+    "excerpt": "Implement secure authentication in your applications using JSON Web Tokens.",
+    "category": "Security",
+    "author": "Omar Faruk",
+    "date": "2024-01-02",
+    "readTime": "9 min read",
+    "image": "https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=600&h=400&fit=crop",
+    "content": "JWT (JSON Web Tokens) provide a stateless way to handle authentication. Learn how to implement JWT properly in your Node.js applications with best security practices.",
+    "tags": ["JWT", "Authentication", "Security"]
+  }
+]
