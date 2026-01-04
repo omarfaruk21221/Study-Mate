@@ -2,13 +2,7 @@
 
 Study Mate is a modern web application that helps students find the **right** study partners based on subject, expertise, and study preferences. It focuses on creating meaningful learning connections through a clean, responsive UI and structured partner profiles. [page:1]
 
-![Study Mate Preview]()
-
-<p align="center">
-  <img src="https://drive.google.com/file/d/1gEaE2___kGK6eaP5AdNaE3zwSfex7IlI/view?usp=sharing" alt="Style Decor Banner" width="100%" />
-</p>
-
-> Add a screenshot or simple UI mockup of your home page + Top Study Partners section and save as `./assets/study-mate-preview.png`. [page:1]
+![Study Mate Preview](https://i.ibb.co/4gTytp3K/Study-Mate.png)
 
 ---
 
