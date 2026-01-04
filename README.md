@@ -1,6 +1,6 @@
 # Study Mate – Find Your Perfect Study Partner
 
-Study Mate is a modern web application that helps students find the **right** study partners based on subject, expertise, and study preferences. It focuses on creating meaningful learning connections through a clean, responsive UI and structured partner profiles. [page:1]
+Study Mate is a modern web application that helps students find the **right** study partners based on subject, expertise, and study preferences. It focuses on creating meaningful learning connections through a clean, responsive UI and structured partner profiles.
 
 ![Study Mate Preview](https://i.ibb.co/4gTytp3K/Study-Mate.png)
 
@@ -8,7 +8,7 @@ Study Mate is a modern web application that helps students find the **right** st
 
 ## Live Demo & Credentials
 
-- Live Site: https://studymatea10.netlify.app [page:1]
+- Live Site: https://studymatea10.netlify.app
 
 ### 🔐 Demo Login Credentials
 
@@ -29,16 +29,16 @@ Study Mate is a modern web application that helps students find the **right** st
 ## Features
 
 - 🔍 **Find Study Partners**  
-  Browse and filter study partners by subject, experience, and study mode to quickly find someone who matches your learning goals. [page:1]
+  Browse and filter study partners by subject, experience, and study mode to quickly find someone who matches your learning goals.
 
 - 👤 **Detailed Partner Profiles**  
-  Each partner card shows name, expertise (e.g., Physics, English Literature), mode (online/offline), experience level, and a link to full profile for better decision making. [page:1]
+  Each partner card shows name, expertise (e.g., Physics, English Literature), mode (online/offline), experience level, and a link to full profile for better decision making.
 
 - ⭐ **Top Study Partners Section**  
-  Highlighted list of featured or highly rated partners like Tariq Aziz, Jahid Hasan, Munir Hasan, and Nabila Akter, with subject, mode, and expertise labels. [page:1]
+  Highlighted list of featured or highly rated partners like Tariq Aziz, Jahid Hasan, Munir Hasan, and Nabila Akter, with subject, mode, and expertise labels.
 
 - 📊 **Impact / Stats Section**  
-  Shows metrics such as 2,500+ active students, 150+ expert teachers, 500+ courses, and 4.9/5 average rating from 10,000+ reviews to build trust. [page:1]
+  Shows metrics such as 2,500+ active students, 150+ expert teachers, 500+ courses, and 4.9/5 average rating from 10,000+ reviews to build trust.
 
 - 📰 **Recent Tech Blogs**  
   Blog cards on topics like:
@@ -46,22 +46,22 @@ Study Mate is a modern web application that helps students find the **right** st
   - Getting Started with React Hooks
   - Advanced React Component Patterns
   - Tailwind CSS for Rapid UI Development
-  - JavaScript ES6 Features You Must Know [page:1]
+  - JavaScript ES6 Features You Must Know
 
 - 🧭 **How It Works**  
-  Step-by-step flow: Create Profile, Find Partners, Connect & Collaborate with your ideal study partners. [page:1]
+  Step-by-step flow: Create Profile, Find Partners, Connect & Collaborate with your ideal study partners.
 
 - 💬 **Testimonials**  
-  Feedback from users like Jane Doe, John Smith, and Sara Lee describing their positive experience using the platform. [page:1]
+  Feedback from users like Jane Doe, John Smith, and Sara Lee describing their positive experience using the platform.
 
 - ❓ **Frequently Asked Questions**  
-  FAQ section answering questions about certificates, refund policy, mobile learning, student interaction, instructor help, deadlines, and discounts or scholarships. [page:1]
+  FAQ section answering questions about certificates, refund policy, mobile learning, student interaction, instructor help, deadlines, and discounts or scholarships.
 
 - 📞 **Contact & Social Links**  
-  Contact form plus links to GitHub, Facebook, LinkedIn, and WhatsApp so users can reach the creator easily. [page:1]
+  Contact form plus links to GitHub, Facebook, LinkedIn, and WhatsApp so users can reach the creator easily.
 
 - 📱 **Responsive Design**  
-  Fully responsive layout optimized for mobile, tablet, and desktop devices. [page:1]
+  Fully responsive layout optimized for mobile, tablet, and desktop devices.
 
 ---
 
@@ -69,15 +69,25 @@ Study Mate is a modern web application that helps students find the **right** st
 
 > Nicher gula generic; tumi project er sathe match kore update kore nibe.
 
-- **Frontend:** React / Next.js with modern component-based architecture. [page:1]
-- **Styling:** Tailwind CSS / DaisyUI / custom CSS for fast UI development. [page:1]
-- **Routing:** SPA or file-based routing for Home, Blog, Find Partners, Contact, Dashboard, etc. [page:1]
-- **State & Data:** React hooks for state management and data handling. [page:1]
+- **Frontend:** React / Next.js with modern component-based architecture.
+- **Styling:** Tailwind CSS / DaisyUI / custom CSS for fast UI development.
+- **Routing:** SPA or file-based routing for Home, Blog, Find Partners, Contact, Dashboard, etc.
+- **State & Data:** React hooks for state management and data handling.
 - **Backend / API:** (Update according to your setup – e.g., Node.js / Express / Firebase / Next API routes).
 - **Database:** (e.g., MongoDB / Firebase Firestore – update to real one).
-- **Deployment:** Netlify – deployed at `studymatea10.netlify.app`. [page:1]
+- **Deployment:** Netlify – deployed at `studymatea10.netlify.app`.
 
----
+Author
+Omar Faruk – Full‑stack Web Developer
+
+Address: Mirpur, Dhaka, Bangladesh
+GitHub: https://github.com/omarfaruk21221
+
+Facebook: https://www.facebook.com/omarfaruk21221
+
+LinkedIn: https://www.linkedin.com/in/omarfaruk21221
+
+## WhatsApp: https://wa.me/8801768838715
 
 ## Getting Started
 
