@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext/AuthContext";
 import User from "./User";
 import ThemeToggle from "./ThemeToggle";
 import Logo from "./Share/Logo";
+import UserMenu from "./UserMenu";
 
 const Navbar = () => {
   const { user } = use(AuthContext);
@@ -23,28 +24,12 @@ const Navbar = () => {
       {user && (
         <>
           <li>
-            <NavLink
-              to={"/Create-Partner-Profile"}
-              className={({ isActive }) =>
-                isActive
-                  ? "text-primary bg-primary/30 font-semibold"
-                  : "hover:text-primary bg-primary/30"
-              }
-            >
+            <NavLink to={"/Create-Partner-Profile"}>
               Create Partner Profile
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/my-connection"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-primary bg-primary/30 font-semibold"
-                  : "hover:text-primary bg-primary/30"
-              }
-            >
-              My Connections
-            </NavLink>
+            <NavLink to="/my-connection">My Connections</NavLink>
           </li>
         </>
       )}
@@ -92,7 +77,7 @@ const Navbar = () => {
         <ThemeToggle />
         <div>
           {user ? (
-            <User />
+            <UserMenu />
           ) : (
             <Link to={"/auth-layout"} className="btn btn-primary">
               Login

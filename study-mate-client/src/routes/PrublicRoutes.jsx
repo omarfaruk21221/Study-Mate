@@ -15,6 +15,9 @@ import Error404 from "../components/Share/ErrorPages/Error404";
 import Contact from "../pages/Home/Contact";
 import Blog from "../pages/Home/Blog/Blog";
 import BlogDetail from "../pages/Home/Blog/BlogDetail";
+import DashboardLayout from "../Layouts/DashboardLayout";
+import DashBoard from "../pages/DashboardPages/DashBoard";
+// import Profile from "../pages/DashboardPages/Profile ";
 
 const router = createBrowserRouter([
   {
@@ -84,6 +87,16 @@ const router = createBrowserRouter([
       {
         path: "/auth-layout/register",
         element: <Register />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <DashBoard />,
       },
     ],
   },
